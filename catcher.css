@@ -6,7 +6,7 @@
   --text:#e8edcf;--text-soft:#c2ccb2;--muted:#8d9e8d;
   --lime:#d2f478;--lime-hover:#e3ff9e;--lime-ink:#203019;--lime-shadow:#688443;--lime-deep:#7d9e4f;--orange:#f7b36b;
   --key-white:#e6e7d2;--key-white-edge:#a6b098;--key-ink:#38412f;--key-black:#17231e;--key-black-ink:#94a386;--key-black-edge:#09140e;--key-black-front:#34443a;--key-black-lip:#55695a;
-  --veil:#102019b8;--well-ink:#c2ccb2;--well-val:#d2f478;--outline:#040908;--display:'Press Start 2P','Galmuri11','Noto Sans Georgian','Noto Sans Hebrew','Noto Sans Arabic',monospace;--well-deep:#0b1412;--well-shadow:#040908;--well-light:#26352e;--shadow:#0002;
+  --veil:#102019b8;--well-ink:#c2ccb2;--well-val:#d2f478;--outline:#040908;--display:'Spotanote Start','Galmuri11','Noto Sans Georgian','Noto Sans Hebrew','Noto Sans Arabic',monospace;--well-deep:#0b1412;--well-shadow:#040908;--well-light:#26352e;--shadow:#0002;
 }
 /* House button rule (root CLAUDE.md, "Buttons"): height from padding, the letters centred rather than the line box. */
 button{display:inline-flex;align-items:center;justify-content:center;font:inherit;line-height:1;padding:.6em 1.1em;box-sizing:border-box;-webkit-appearance:none;appearance:none;text-box:trim-both cap alphabetic;position:relative}
@@ -192,7 +192,7 @@ header nav{gap:12px}header nav .px{font-size:12px}#sound{border:0;color:var(--te
 @media(max-width:800px){.mode-panel .level-select{width:100%;justify-content:center;gap:6px}.mode-panel .level-select .px{padding:6px 8px;min-width:40px}.mode-panel .field-label{width:100%;flex-wrap:wrap}.mode-panel .field-label select{width:100%;min-width:0}#overlay:not([hidden])~.scene-message{display:none}}
 
 /* Logo: Press Start 2P in every theme, never the theme's text face (Dafa, 11 Nov). GBC: all other text in Galmuri11 Bold, because Regular's 1 px strokes read too thin (Dafa, «а»). */
-.brand,.brand .logo-word,footer .logo-word{font-family:'Press Start 2P',monospace;font-weight:400}.logo-word{display:inline-flex}
+.brand,.brand .logo-word,footer .logo-word{font-family:'Spotanote Start',monospace;font-weight:400}.logo-word{display:inline-flex}
 [data-theme="gbc"] body{font-weight:700}[data-theme="gbc"] .brand{font-weight:400}
 
 /* Pixel menus (pxselect.js) replace the browser's drop-downs (Dafa, 11 Nov): a raised button with a stepped chevron opens a recessed list, one row per option, the current one marked by an inset lime bar and the pointed one inverted. Square, no blur, no shadow but the 4 px drop. */
