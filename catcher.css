@@ -5,7 +5,7 @@
   --line:#32423b;--line-strong:#43503b;
   --text:#e8edcf;--text-soft:#c2ccb2;--muted:#8d9e8d;
   --lime:#d2f478;--lime-hover:#e3ff9e;--lime-ink:#203019;--lime-shadow:#688443;--lime-deep:#7d9e4f;--orange:#f7b36b;
-  --key-white:#e6e7d2;--key-white-edge:#a6b098;--key-ink:#38412f;--key-black:#17231e;--key-black-ink:#94a386;--key-black-edge:#09140e;
+  --key-white:#e6e7d2;--key-white-edge:#a6b098;--key-ink:#38412f;--key-black:#17231e;--key-black-ink:#94a386;--key-black-edge:#09140e;--key-black-front:#34443a;--key-black-lip:#55695a;
   --veil:#102019b8;--well-deep:#0b1412;--well-shadow:#040908;--well-light:#26352e;--shadow:#0002;
 }
 /* House button rule (root CLAUDE.md, "Buttons"): height from padding, the letters centred rather than the line box. */
@@ -46,3 +46,8 @@ html[dir=rtl] h1,html[dir=rtl] #overlay h2,html[dir=rtl] .stats-head h2{font-fam
 
 /* Multiplier beside the points: its colour climbs with the tier, like the pop-ups. */
 #mult{font:16px 'Press Start 2P',monospace;font-style:normal;margin-inline-start:8px;color:var(--muted)}#mult[data-tier="2"]{color:#f7b36b}#mult[data-tier="3"]{color:#ffd84a}#mult[data-tier="4"]{color:#ffd84a;animation:multglow .5s steps(2) infinite}@keyframes multglow{50%{color:#fff3b0}}@media(prefers-reduced-motion:reduce){#mult{animation:none!important}}
+
+/* Black keys get the front face a real key shows (Dafa, 11 Nov: they read flat): a lighter lip and a front strip at the bottom; pressed, the front shrinks as the key goes down. The legend's little key draws the same face. */
+.key.black{box-shadow:inset 0 -12px 0 var(--key-black-front),inset 0 -14px 0 var(--key-black-lip),0 4px 0 var(--key-black-edge)}
+.key.black.pressed{box-shadow:inset 0 -5px 0 var(--lime-shadow),inset 0 -7px 0 var(--lime),0 1px 0 var(--key-black-edge)}
+.pk.black{box-shadow:inset 0 0 0 1px var(--key-black-ink),inset 0 -5px 0 var(--key-black-front),inset 0 -6px 0 var(--key-black-lip)}
