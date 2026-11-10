@@ -47,7 +47,9 @@ html[dir=rtl] h1,html[dir=rtl] #overlay h2,html[dir=rtl] .stats-head h2{font-fam
 /* Multiplier beside the points: its colour climbs with the tier, like the pop-ups. */
 #mult{font:16px 'Press Start 2P',monospace;font-style:normal;margin-inline-start:8px;color:var(--muted)}#mult[data-tier="2"]{color:#f7b36b}#mult[data-tier="3"]{color:#ffd84a}#mult[data-tier="4"]{color:#ffd84a;animation:multglow .5s steps(2) infinite}@keyframes multglow{50%{color:#fff3b0}}@media(prefers-reduced-motion:reduce){#mult{animation:none!important}}
 
-/* Black keys get the front face a real key shows (Dafa, 11 Nov: they read flat): a lighter lip and a front strip at the bottom; pressed, the front shrinks as the key goes down. The legend's little key draws the same face. */
-.key.black{box-shadow:inset 0 -12px 0 var(--key-black-front),inset 0 -14px 0 var(--key-black-lip),0 4px 0 var(--key-black-edge)}
-.key.black.pressed{box-shadow:inset 0 -5px 0 var(--lime-shadow),inset 0 -7px 0 var(--lime),0 1px 0 var(--key-black-edge)}
-.pk.black{box-shadow:inset 0 0 0 1px var(--key-black-ink),inset 0 -5px 0 var(--key-black-front),inset 0 -6px 0 var(--key-black-lip)}
+/* Black keys get the front face a real key shows (Dafa, 11 Nov): the top surface, then a sloped front drawn as a trapezoid, narrow where it meets the top and full width at the bottom, with a light lip along its upper edge. Pressed, the front shrinks as the key goes down. The legend's little key draws the same shape. */
+.key.black{box-shadow:0 4px 0 var(--key-black-edge)}
+.key.black::after{content:'';position:absolute;left:0;right:0;bottom:0;height:14px;background:var(--key-black-front);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%);box-shadow:inset 0 2px 0 var(--key-black-lip);pointer-events:none}
+.key.black.pressed{box-shadow:0 1px 0 var(--key-black-edge)}.key.black.pressed::after{height:6px;background:var(--lime-shadow);box-shadow:inset 0 2px 0 var(--lime)}
+.key.black .note-name,.key.black .binding{position:relative;z-index:1}.key.black{padding-bottom:18px}
+.pk.black{position:relative;box-shadow:inset 0 0 0 1px var(--key-black-ink)}.pk.black::after{content:'';position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--key-black-lip);clip-path:polygon(25% 0,75% 0,100% 100%,0 100%)}
