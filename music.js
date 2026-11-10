@@ -30,16 +30,16 @@ const triad = r => [r, r + (([0, 5, 7].includes(r % 12)) ? 4 : 3), r + 7]; // ma
 function oomPah(chords, perChord, bassBase, chordBase) { // root on the triangle on the first beat, the third and fifth on the pulse on the second, per chord span
   const ev = []; chords.forEach((r, i) => { const b = i * perChord, [, third, fifth] = triad(r); ev.push([b, 'b', bassBase + r % 12, perChord * 0.9]); ev.push([b + 1, 'c', chordBase + third % 12, 0.4]); ev.push([b + 1.5, 'c', chordBase + fifth % 12, 0.4]); }); return ev;
 }
-const C = 0, F = 5, G = 7;
+const CH_C = 0, CH_F = 5, CH_G = 7;
 const ACCOMP = {
   // Petzold, Minuet BWV Anh. 114, left hand bars 1-6, transposed G -> C like the melody: C3/E3 G3 half, D3, then E3, F3, E3, D3, C3 dotted halves
   minuet: { bar: 3, bpm: [84, 100, 116], treble: [[0, 'b', 48, 2], [0, 'c', 55, 2], [2, 'b', 50, 1], [3, 'b', 52, 3], [6, 'b', 53, 3], [9, 'b', 52, 3], [12, 'b', 50, 3], [15, 'b', 48, 3]] },
   // Clementi, Sonatina Op.36 No.1, left hand bars 1-4, one octave below the source so it sits under the melody (which the game plays two octaves down)
   clementi: { bar: 4, bpm: [88, 104, 120], bass: [[0, 'b', 36, 1], [4, 'b', 36, 1], [8, 'b', 36, 1], [10, 'b', 36, 1], [12, 'b', 31, 1], [14, 'b', 43, 0.5], [14.5, 'b', 41, 0.5], [15, 'b', 40, 0.5], [15.5, 'b', 38, 0.5]] },
   // Ode to Joy: | C C | G G | C C | C G | C C | G G | C C | G C |, a chord every two beats
-  ode: { bar: 4, bpm: [84, 100, 116], chords: [C, C, G, G, C, C, C, G, C, C, G, G, C, C, G, C], per: 2 },
+  ode: { bar: 4, bpm: [84, 100, 116], chords: [CH_C, CH_C, CH_G, CH_G, CH_C, CH_C, CH_C, CH_G, CH_C, CH_C, CH_G, CH_G, CH_C, CH_C, CH_G, CH_C], per: 2 },
   // Twinkle: six two-bar phrases, a chord every two beats: C C F C | F C G C | C F C G | C F C G | C C F C | F C G C
-  twinkle: { bar: 4, bpm: [84, 100, 116], chords: [C, C, F, C, F, C, G, C, C, F, C, G, C, F, C, G, C, C, F, C, F, C, G, C], per: 2 }
+  twinkle: { bar: 4, bpm: [84, 100, 116], chords: [CH_C, CH_C, CH_F, CH_C, CH_F, CH_C, CH_G, CH_C, CH_C, CH_F, CH_C, CH_G, CH_C, CH_F, CH_C, CH_G, CH_C, CH_C, CH_F, CH_C, CH_F, CH_C, CH_G, CH_C], per: 2 }
 };
 function accompaniment(name, clef) {
   const a = ACCOMP[name]; if (!a) return null;
