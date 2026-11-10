@@ -63,3 +63,12 @@ html[dir=rtl] h1,html[dir=rtl] #overlay h2,html[dir=rtl] .stats-head h2{font-fam
 .key.black.pressed::after{clip-path:none}
 .pk{box-shadow:inset 0 0 0 1px #2b3326,inset 0 -3px 0 var(--key-white-edge)}
 .pk.black::after{clip-path:polygon(25% 0,75% 0,75% 2px,100% 2px,100% 100%,0 100%,0 2px,25% 2px)}
+
+/* Key letters: hidden on the piano unless the switch beside the legend is on. The switch is a pixel track with a knob, in a well like the captions. */
+.key .binding{display:none}.letters-on .key .binding{display:block}
+.legend{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.switch{gap:8px;background:none;border:0;color:var(--text-soft);padding:6px 4px}
+.sw{position:relative;display:inline-block;width:30px;height:16px;background:var(--well-deep);box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
+.sw::before{content:'';position:absolute;top:3px;left:3px;width:10px;height:10px;background:var(--muted)}
+.switch[aria-checked="true"] .sw::before{left:17px;background:var(--lime)}
+@media(hover:none) and (pointer:coarse){.legend,.letters-on .key .binding{display:none}}
