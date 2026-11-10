@@ -6,7 +6,7 @@
   --text:#e8edcf;--text-soft:#c2ccb2;--muted:#8d9e8d;
   --lime:#d2f478;--lime-hover:#e3ff9e;--lime-ink:#203019;--lime-shadow:#688443;--lime-deep:#7d9e4f;--orange:#f7b36b;
   --key-white:#e6e7d2;--key-white-edge:#a6b098;--key-ink:#38412f;--key-black:#17231e;--key-black-ink:#94a386;--key-black-edge:#09140e;
-  --veil:#102019b8;--shadow:#0002;
+  --veil:#102019b8;--well-deep:#0b1412;--well-shadow:#040908;--well-light:#26352e;--shadow:#0002;
 }
 /* House button rule (root CLAUDE.md, "Buttons"): height from padding, the letters centred rather than the line box. */
 button{display:inline-flex;align-items:center;justify-content:center;font:inherit;line-height:1;padding:.6em 1.1em;box-sizing:border-box;-webkit-appearance:none;appearance:none;text-box:trim-both cap alphabetic;position:relative}
@@ -28,3 +28,14 @@ header{flex-wrap:wrap;row-gap:12px}nav{flex-wrap:wrap;row-gap:4px}.prefs label{f
 html[dir=rtl] h1,html[dir=rtl] #overlay h2,html[dir=rtl] .stats-head h2{font-family:'Noto Sans Hebrew','Noto Sans Arabic',sans-serif;font-weight:700}
 /* A black key is about 30px wide on a phone: the sharp goes under the name so 12px pixel type still fits. */
 .key.black .note-name{line-height:1.15;text-align:center}
+
+/* Captions in pixel wells (Dafa, 10 Nov 2026): every small label sits in a recessed box, lit from the top left like the 8-bit panels, in the pixel font at its native 12px, without extra tracking that would break the pixel grid. Key names are keycaps raised inside the well. Measured contrast: --text-soft on --well-deep 11.2:1, keycap text on --raised 9.9:1. */
+.keyboard-tip,.below>span,.field-footer>span,#overlayHint,.scene-label,.scene-message{display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:7px 10px;background:var(--well-deep);color:var(--text-soft);box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light);line-height:1.25;letter-spacing:0;font-size:12px}
+.scene-label,.scene-message{bottom:12px}.scene-message{color:var(--lime)}
+.hint{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}.caps{display:inline-flex;gap:3px;flex-wrap:wrap;direction:ltr;unicode-bidi:isolate}
+.kc{display:inline-flex;align-items:center;justify-content:center;min-width:20px;padding:4px 5px;background:var(--raised);color:var(--text);font-weight:400;box-shadow:inset 0 -2px 0 var(--well-shadow);line-height:1;text-box:trim-both cap alphabetic}
+.instrument-top{gap:12px;flex-wrap:wrap}.keyboard-tip{max-width:100%}
+.below{align-items:flex-start;flex-wrap:wrap}.below>span{max-width:100%}
+.field-footer{gap:8px;flex-wrap:wrap;align-items:center}
+.eyebrow,.tag,.hud small,.group-cap{letter-spacing:1px}.hud small{color:var(--text-soft)}
+@media(hover:none) and (pointer:coarse){.keyboard-tip{display:none}}
