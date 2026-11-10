@@ -67,8 +67,24 @@ html[dir=rtl] h1,html[dir=rtl] #overlay h2,html[dir=rtl] .stats-head h2{font-fam
 /* Key letters: hidden on the piano unless the switch beside the legend is on. The switch is a pixel track with a knob, in a well like the captions. */
 .key .binding{display:none}.letters-on .key .binding{display:block}
 .legend{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-.switch{gap:8px;background:none;border:0;color:var(--text-soft);padding:6px 4px}
-.sw{position:relative;display:inline-block;width:30px;height:16px;background:var(--well-deep);box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
-.sw::before{content:'';position:absolute;top:3px;left:3px;width:10px;height:10px;background:var(--muted)}
-.switch[aria-checked="true"] .sw::before{left:17px;background:var(--lime)}
-@media(hover:none) and (pointer:coarse){.legend,.letters-on .key .binding{display:none}}
+@media(hover:none) and (pointer:coarse){.keyboard-tip,#lettersBtn,.letters-on .key .binding{display:none}}
+
+/* Note names off: the keys stay plain. Black-key names sit on one line with their sharp, centred, never wider than the key. */
+.names-off .key .note-name{display:none}
+.key.black .note-name{white-space:nowrap}
+.key.black .note-name.vert{line-height:1}.key.black:has(.vert){padding-bottom:14px}
+
+/* Switches in 8-bit style (Dafa, 11 Nov): a recessed track with a 2 px outline, a raised knob with a light top-left bevel and a dark bottom-right one, and a pixel lamp: off is a dim knob on the left over a dark track, on slides it right over a lime track with a lit lamp. The knob moves in one step, as an 8-bit switch would. */
+.switch{gap:10px;background:none;border:0;color:var(--text-soft);padding:6px 4px}
+.sw{position:relative;display:inline-block;flex:none;width:40px;height:20px;background:#0b1412;box-shadow:inset 0 0 0 2px #040908,inset 2px 2px 0 2px #040908,inset -2px -2px 0 2px #26352e}
+.sw::before{content:'';position:absolute;top:4px;left:4px;width:14px;height:12px;background:#5d6c5f;box-shadow:inset 2px 2px 0 #8d9e8d,inset -2px -2px 0 #2c3a2f}
+.sw::after{content:'';position:absolute;top:8px;right:7px;width:4px;height:4px;background:#2a3a31}
+.switch[aria-checked="true"] .sw{background:#3f5a24}
+.switch[aria-checked="true"] .sw::before{left:22px;background:var(--lime);box-shadow:inset 2px 2px 0 #f0ffc4,inset -2px -2px 0 var(--lime-shadow)}
+.switch[aria-checked="true"] .sw::after{left:7px;right:auto;background:#fff3b0;box-shadow:0 0 0 1px #b8d860}
+.switch:hover .sw::before{filter:brightness(1.1)}
+/* On a phone the instrument header stays hidden, but the note-names switch is shown on its own row above the piano. */
+@media(max-width:800px){.instrument-top{display:flex;justify-content:flex-end;margin-bottom:8px}.instrument-top>div{display:none}#mult{font-size:12px;margin-inline-start:4px}.hud>div{min-width:56px}}
+/* The multiplier shows only from x2: at x1 it is noise, and on a phone "×1" beside a streak of 0 read as "×10". */
+#mult[data-tier="1"]{display:none}
+.switch{white-space:nowrap}
