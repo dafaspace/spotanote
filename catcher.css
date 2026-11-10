@@ -176,4 +176,17 @@ header nav{gap:12px}header nav .px{font-size:12px}#sound{border:0;color:var(--te
 .instrument{background:var(--well-deep);box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
 .instrument .legend .keyboard-tip{box-shadow:0 0 0 2px var(--well-ink)}
 #overlay .dlg h2,#overlay .dlg p,#overlay .dlg #overlayTitle,#overlay .dlg #overlayText{color:inherit}
-.dlg{max-height:calc(100% - 16px);overflow:auto}
+
+/* What to play opens without scrolling (Dafa, 11 Nov): while choosing, the window drops its intro lines and the panel packs into two rows (difficulty and clef, then note set and melody);
+   the window may grow past the field instead of scrolling inside it. */
+#overlay{overflow:visible;z-index:5}
+.dlg.choosing #overlayText,.dlg.choosing #overlayHint{display:none}
+.mode-panel{display:grid;grid-template-columns:auto auto;gap:10px 16px;align-items:center;justify-items:start;padding:10px 12px}
+.mode-panel[hidden]{display:none}
+.mode-panel .level-select{flex-wrap:nowrap}.mode-panel .level-select .px{min-height:32px;padding:6px 10px}
+.mode-panel .stage-select{grid-column:1}.mode-panel .field-label{grid-column:2}
+@media(max-width:800px){.mode-panel{grid-template-columns:1fr;justify-items:center}.mode-panel .stage-select,.mode-panel .field-label{grid-column:1}.mode-panel .level-select{flex-wrap:wrap;justify-content:center}}
+.dlg{max-width:min(760px,calc(100% - 24px))}.dlg .mode-panel{max-width:100%}
+/* On a phone the field is about 120 px tall: the start, pause and results window stands under the field instead of over it, so nothing is clipped. */
+@media(max-width:800px){#overlay{position:static;background:var(--panel);padding:12px 0}#overlay[hidden]{display:none}.dlg{max-width:calc(100% - 24px)}.mode-panel .level-select{flex-wrap:wrap!important}.mode-panel{width:100%}}
+@media(max-width:800px){.mode-panel .level-select{width:100%;justify-content:center;gap:6px}.mode-panel .level-select .px{padding:6px 8px;min-width:40px}.mode-panel .field-label{width:100%;flex-wrap:wrap}.mode-panel .field-label select{width:100%;min-width:0}#overlay:not([hidden])~.scene-message{display:none}}
