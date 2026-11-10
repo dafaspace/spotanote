@@ -39,3 +39,7 @@ html[dir=rtl] h1,html[dir=rtl] #overlay h2,html[dir=rtl] .stats-head h2{font-fam
 .field-footer{gap:8px;flex-wrap:wrap;align-items:center}
 .eyebrow,.tag,.hud small,.group-cap{letter-spacing:1px}.hud small{color:var(--text-soft)}
 @media(hover:none) and (pointer:coarse){.keyboard-tip{display:none}}
+
+/* A tiny piano key before each group (Dafa, 11 Nov): the picture says white or black faster than the word, which stays beside it. Drawn in the piano's own colours. */
+.pk{display:inline-block;flex:none;width:10px;height:18px;background:var(--key-white);box-shadow:inset 0 -3px 0 var(--key-white-edge)}.pk.black{width:8px;height:14px;align-self:flex-start;margin-top:2px;background:var(--key-black);box-shadow:inset 0 0 0 1px var(--key-black-ink)}
+.keyboard-tip .hint+.hint{margin-inline-start:10px}
