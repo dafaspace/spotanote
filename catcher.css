@@ -102,3 +102,53 @@ button,canvas{-webkit-user-select:none;user-select:none;-webkit-touch-callout:no
 
 /* The start, pause and results card sits on a dark veil taken from the theme's HUD colour, so its text uses the HUD ink in every theme. */
 #overlay{color:var(--well-ink)}#overlay h2,#overlay p,#overlayTitle,#overlayText{color:var(--well-ink)}#overlay .tag{color:var(--orange)}
+/* ===== Layout rebuild (design audit, 11 Nov 2026) ===== */
+/* Raised controls, five states (Tastebook): normal raised with light top-left and dark bottom-right, hover only where a mouse exists, pressed inverts and moves one unit down-right (never a scale),
+   keyboard focus is a 2 px ring on the grid, disabled is flat with muted ink. The class is-pressed is set on pointerdown because iOS fires :active unreliably. */
+.px{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:10px 14px;border:0;background:var(--panel);color:var(--text);font:inherit;font-size:12px;cursor:pointer;
+ box-shadow:0 0 0 2px var(--outline),inset -2px -2px 0 var(--muted),inset 2px 2px 0 var(--bg)}
+@media(hover:hover){.px:hover:not(:disabled){filter:brightness(1.06)}}
+.px:active:not(:disabled),.px.is-pressed:not(:disabled){transform:translate(2px,2px);box-shadow:0 0 0 2px var(--outline),inset 2px 2px 0 var(--muted),inset -2px -2px 0 var(--bg)}
+.px:focus-visible{outline:2px solid var(--orange);outline-offset:4px}
+.px:disabled{box-shadow:0 0 0 2px var(--muted);color:var(--muted);cursor:default;transform:none}
+.px.primary,.px.active{background:var(--lime);color:var(--lime-ink)}
+.px.active{box-shadow:0 0 0 2px var(--outline),inset 2px 2px 0 var(--outline)}
+.px.icon-only{padding:10px;min-width:36px}
+@media(prefers-reduced-motion:reduce){.px:active,.px.is-pressed{transform:none}}
+/* Header: brand on the left; Statistics, Trainer, Sound and the gear as raised buttons. */
+header nav{gap:12px}header nav .px{font-size:12px}#sound{border:0;color:var(--text)}
+/* HUD: each value in a recessed well, LCD-like; accuracy lives in the results now. */
+.hud{background:var(--panel);gap:10px;padding:12px}
+.well-cell{background:var(--well-deep);color:var(--well-ink);box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light);padding:8px 12px;min-width:96px}
+.well-cell small{color:var(--well-ink);margin-bottom:6px}.hud .well-cell b{color:var(--well-val)}.hud .time b span{color:var(--well-ink)}
+.hud #combo{color:var(--orange)}
+/* Start screen: Start, then the raised summary line that opens "what to play". */
+#overlay{gap:10px}#overlay .px.primary{padding:14px 24px;font-weight:700}
+.px.mode{gap:10px;font-size:12px}.chev{display:inline-block;width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px)}
+.px.mode[aria-expanded="true"] .chev{transform:rotate(225deg)}
+.mode-panel{display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px;background:var(--panel);box-shadow:0 0 0 2px var(--outline),inset 2px 2px 0 var(--muted)}
+.mode-panel[hidden]{display:none}.mode-panel .level-select{display:flex;gap:8px;border:0;padding:0;background:none}
+.mode-panel .level-select .px{min-height:36px;min-width:44px;padding:8px 12px;font-size:12px;color:var(--text)}.mode-panel .level-select .px.active{color:var(--lime-ink)}
+.mode-panel .group-cap{color:var(--text)}
+.field-label{display:flex;align-items:center;gap:8px;color:var(--text);font-size:12px}
+.field-label select,#overlay select{min-height:36px;padding:0 8px;border:0;font:inherit;font-size:12px;background:var(--bg);color:var(--text);box-shadow:0 0 0 2px var(--outline),inset 2px 2px 0 var(--muted)}
+#overlay .field-label{color:var(--well-ink)}#overlay .mode-panel .field-label{color:var(--text)}
+/* Instrument: only the piano, and the key legend while key letters are on. */
+.instrument-top{justify-content:flex-end;margin-bottom:10px}.legend{display:none}.letters-on .legend{display:inline-flex}
+/* About: the heading and the words for search, under the game. */
+.about{padding:28px 0 8px;max-width:640px}.about h1{margin:6px 0 10px}.about p{color:var(--muted);line-height:1.6;margin:6px 0}
+/* Options: a bottom sheet on a phone, a centred panel on a wide screen; the backdrop closes it. */
+.sheet{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:var(--veil)}
+.sheet[hidden]{display:none}
+.sheet-card{width:min(520px,calc(100% - 32px));max-height:calc(100% - 32px);overflow:auto;background:var(--panel);color:var(--text);padding:18px;box-shadow:0 0 0 2px var(--outline),inset 2px 2px 0 var(--bg),inset -2px -2px 0 var(--muted),6px 6px 0 var(--outline)}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.sheet-head h2{font:16px var(--display);margin:0}
+.sheet-note{color:var(--muted);margin:8px 0 14px}
+.sheet-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sheet-grid .field-label{flex-direction:column;align-items:stretch;gap:6px}
+.sheet-row{display:flex;gap:16px;flex-wrap:wrap;margin:16px 0}.sheet .switch{color:var(--text)}
+.sheet #midiBtn{margin-bottom:14px}.sheet-keys h3{font:12px var(--display);margin:0 0 8px;color:var(--text)}
+.sheet-keys #keysHelp{display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px 10px;padding:7px 10px;background:var(--well-deep);color:var(--well-ink);box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
+@media(max-width:800px){.sheet{align-items:flex-end}.sheet-card{width:100%;max-height:85%;box-shadow:0 0 0 2px var(--outline),inset 0 2px 0 var(--bg)}.sheet-grid{grid-template-columns:1fr}.well-cell{min-width:0;padding:6px 8px}header nav .px span{display:none}}
+
+.sheet #midiBtn{color:var(--text);border:0;background:var(--panel)}
+@media(max-width:800px){.field-footer>span:last-child{display:inline-flex}}
+@media(hover:none) and (pointer:coarse){.sheet-keys{display:none}}
