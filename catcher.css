@@ -190,3 +190,18 @@ header nav{gap:12px}header nav .px{font-size:12px}#sound{border:0;color:var(--te
 /* On a phone the field is about 120 px tall: the start, pause and results window stands under the field instead of over it, so nothing is clipped. */
 @media(max-width:800px){#overlay{position:static;background:var(--panel);padding:12px 0}#overlay[hidden]{display:none}.dlg{max-width:calc(100% - 24px)}.mode-panel .level-select{flex-wrap:wrap!important}.mode-panel{width:100%}}
 @media(max-width:800px){.mode-panel .level-select{width:100%;justify-content:center;gap:6px}.mode-panel .level-select .px{padding:6px 8px;min-width:40px}.mode-panel .field-label{width:100%;flex-wrap:wrap}.mode-panel .field-label select{width:100%;min-width:0}#overlay:not([hidden])~.scene-message{display:none}}
+
+/* Logo: Press Start 2P in every theme, never the theme's text face (Dafa, 11 Nov). GBC: all other text in Galmuri11 Bold, because Regular's 1 px strokes read too thin (Dafa, «а»). */
+.brand,.brand .logo-word,footer .logo-word{font-family:'Press Start 2P',monospace;font-weight:400}.logo-word{display:inline-flex}
+[data-theme="gbc"] body{font-weight:700}[data-theme="gbc"] .brand{font-weight:400}
+
+/* Pixel menus (pxselect.js) replace the browser's drop-downs (Dafa, 11 Nov): a raised button with a stepped chevron opens a recessed list, one row per option, the current one marked by an inset lime bar and the pointed one inverted. Square, no blur, no shadow but the 4 px drop. */
+.pxsel{display:inline-flex;position:relative;min-width:0;max-width:100%}.pxsel-native{display:none!important}
+.pxsel-btn{justify-content:space-between;gap:12px;min-height:36px;min-width:140px;max-width:100%;padding:8px 10px 8px 12px;text-align:start}.pxsel-val{overflow:hidden;text-overflow:clip;white-space:nowrap;min-width:0}
+.pxsel-btn .chev{flex:none;width:10px;height:6px;background:currentColor;clip-path:polygon(0 0,100% 0,100% 33%,80% 33%,80% 67%,60% 67%,60% 100%,40% 100%,40% 67%,20% 67%,20% 33%,0 33%)}.pxsel-btn.open .chev{transform:scaleY(-1)}
+.pxsel-list{position:fixed;z-index:40;margin:0;padding:4px;list-style:none;overflow-y:auto;overscroll-behavior:contain;background:var(--bg);color:var(--text);font-family:inherit;font-size:12px;box-shadow:0 0 0 2px var(--outline),inset 2px 2px 0 var(--muted),4px 4px 0 var(--outline);outline:none;scrollbar-width:thin;scrollbar-color:var(--muted) var(--bg);-webkit-user-select:none;user-select:none}
+.pxsel-list li{display:flex;align-items:center;min-height:36px;padding:6px 12px 6px 16px;cursor:pointer;white-space:nowrap;position:relative}
+.pxsel-list li[aria-selected="true"]::before{content:"";position:absolute;inset-inline-start:4px;top:8px;bottom:8px;width:4px;background:var(--lime)}
+.pxsel-list li.on{background:var(--text);color:var(--bg)}.pxsel-list li.on[aria-selected="true"]::before{background:var(--bg)}
+.field-label .pxsel,.field-label .pxsel-btn{width:100%}
+@media(max-width:800px){.pxsel-list li{min-height:44px}}
