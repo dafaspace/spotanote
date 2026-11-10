@@ -152,3 +152,28 @@ header nav{gap:12px}header nav .px{font-size:12px}#sound{border:0;color:var(--te
 .sheet #midiBtn{color:var(--text);border:0;background:var(--panel)}
 @media(max-width:800px){.field-footer>span:last-child{display:inline-flex}}
 @media(hover:none) and (pointer:coarse){.sheet-keys{display:none}}
+
+/* Start, pause and results in a solid 8-bit window (Dafa, 11 Nov: text floating over the field read badly): the HUD colour with a double frame like an NES dialog box,
+   over a lighter veil so the field still shows around it. Results as stat cells; the small print stays inside the window. */
+#overlay{background:var(--veil-light,rgba(0,0,0,.35))}
+.dlg{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:min(560px,calc(100% - 24px));padding:20px 22px;background:var(--panel);color:var(--text);
+ box-shadow:0 0 0 2px var(--outline),inset 2px 2px 0 var(--bg),inset -2px -2px 0 var(--muted),8px 8px 0 2px var(--outline)}
+.dlg h2,#overlayTitle{font:16px/1.5 var(--display);margin:0;color:inherit}
+.dlg p,#overlayText{margin:0;line-height:1.7;color:inherit;font-size:12px}
+/* Results use the very cell of the HUD wells, so a stat looks the same in play and after it (Tastebook). */
+.res-cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%}.res-cells[hidden]{display:none}
+.res{background:var(--well-deep);color:var(--well-ink);padding:8px 6px;text-align:center;box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
+.res small{display:block;font-size:12px;margin-bottom:4px}.res b{font:16px var(--display);color:var(--well-val)}.res.hi{box-shadow:0 0 0 2px var(--well-val)}
+.res-best{grid-column:1/-1;text-align:center;color:var(--lime);font:12px var(--display);margin:2px 0 0}
+#overlayHint{background:none;box-shadow:none;padding:0;color:inherit;opacity:.8}
+.px.quiet{background:none;color:inherit;box-shadow:0 0 0 2px currentColor;text-decoration:none;min-height:32px;padding:8px 12px}
+#overlay .mode-panel .field-label,#overlay .field-label{color:inherit}
+/* NES and 1-bit: the black text box with a white line one unit in from the edge (the Dragon Quest style window); cells get a white outline to stand off the black. */
+[data-theme="nes"] .dlg,[data-theme="onebit"] .dlg{background:var(--well-deep);color:var(--well-ink);box-shadow:0 0 0 2px var(--well-deep),inset 0 0 0 4px var(--well-deep),inset 0 0 0 6px var(--well-ink),8px 8px 0 2px var(--outline)}
+[data-theme="nes"] .res,[data-theme="onebit"] .res{box-shadow:0 0 0 2px var(--well-ink)}
+@media(max-width:800px){.res-cells{grid-template-columns:repeat(2,minmax(0,1fr))}.dlg{padding:16px}}
+/* The piano sits on a dark keybed, like a real instrument's case, so the white keys never blend into a light panel. */
+.instrument{background:var(--well-deep);box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
+.instrument .legend .keyboard-tip{box-shadow:0 0 0 2px var(--well-ink)}
+#overlay .dlg h2,#overlay .dlg p,#overlay .dlg #overlayTitle,#overlay .dlg #overlayText{color:inherit}
+.dlg{max-height:calc(100% - 16px);overflow:auto}

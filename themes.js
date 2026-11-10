@@ -15,8 +15,8 @@ function applyTheme(id){themeId=THEMES[id]?id:'gbc';const p=THEMES[themeId].pal,
  document.documentElement.dataset.theme=themeId;
  const map={'--bg':p.bg,'--panel':p.panel,'--panel-2':p.panel,'--well':p.panel,'--raised':p.panel,'--track':p.dim,'--line':p.panelEdge,'--line-strong':p.panelEdge,'--text':p.ink,'--text-soft':p.ink,'--muted':p.dim,
   '--lime':p.accent,'--lime-hover':p.accent,'--lime-ink':p.accentInk,'--lime-shadow':p.panelEdge,'--lime-deep':p.accent,'--orange':p.accent2,
-  '--key-white':p.keyW,'--key-white-edge':p.keyWE,'--key-ink':p.keyInk,'--key-black':p.keyB,'--key-black-ink':p.keyW,'--key-black-edge':p.keyBE,'--key-black-front':p.keyBE,'--key-black-lip':p.keyW,
-  '--well-deep':p.hud,'--well-ink':p.hudInk,'--well-val':p.hudVal,'--well-shadow':p.panelEdge,'--well-light':p.dim,'--outline':p.panelEdge,'--veil':hexA(p.hud,.78),'--shadow':hexA(p.panelEdge,.5),
+  '--key-white':p.keyW,'--key-white-edge':p.keyWE,'--key-ink':p.keyInk,'--key-black':p.keyB,'--key-black-ink':p.keyW,'--key-black-edge':p.keyBE,'--key-black-front':p.keyWE,'--key-black-lip':p.keyW,
+  '--well-deep':p.hud,'--well-ink':p.hudInk,'--well-val':p.hudVal,'--well-shadow':p.panelEdge,'--well-light':p.dim,'--outline':p.panelEdge,'--veil':hexA(p.hud,.78),'--veil-light':hexA(p.hud,.4),'--shadow':hexA(p.panelEdge,.5),
   '--display':THEMES[themeId].font==='PS2P'?"'Press Start 2P','Galmuri11','Noto Sans Georgian','Noto Sans Hebrew','Noto Sans Arabic',monospace":"'Galmuri11','Noto Sans Georgian','Noto Sans Hebrew','Noto Sans Arabic',sans-serif"};
  for(const [k,v] of Object.entries(map))set(k,v);
  const meta=document.querySelector&&document.querySelector('meta[name=theme-color]');if(meta)meta.setAttribute('content',p.bg)}
