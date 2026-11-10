@@ -33,13 +33,13 @@ function oomPah(chords, perChord, bassBase, chordBase) { // root on the triangle
 const C = 0, F = 5, G = 7;
 const ACCOMP = {
   // Petzold, Minuet BWV Anh. 114, left hand bars 1-6, transposed G -> C like the melody: C3/E3 G3 half, D3, then E3, F3, E3, D3, C3 dotted halves
-  minuet: { bpm: [84, 100, 116], treble: [[0, 'b', 48, 2], [0, 'c', 55, 2], [2, 'b', 50, 1], [3, 'b', 52, 3], [6, 'b', 53, 3], [9, 'b', 52, 3], [12, 'b', 50, 3], [15, 'b', 48, 3]] },
+  minuet: { bar: 3, bpm: [84, 100, 116], treble: [[0, 'b', 48, 2], [0, 'c', 55, 2], [2, 'b', 50, 1], [3, 'b', 52, 3], [6, 'b', 53, 3], [9, 'b', 52, 3], [12, 'b', 50, 3], [15, 'b', 48, 3]] },
   // Clementi, Sonatina Op.36 No.1, left hand bars 1-4, one octave below the source so it sits under the melody (which the game plays two octaves down)
-  clementi: { bpm: [88, 104, 120], bass: [[0, 'b', 36, 1], [4, 'b', 36, 1], [8, 'b', 36, 1], [10, 'b', 36, 1], [12, 'b', 31, 1], [14, 'b', 43, 0.5], [14.5, 'b', 41, 0.5], [15, 'b', 40, 0.5], [15.5, 'b', 38, 0.5]] },
+  clementi: { bar: 4, bpm: [88, 104, 120], bass: [[0, 'b', 36, 1], [4, 'b', 36, 1], [8, 'b', 36, 1], [10, 'b', 36, 1], [12, 'b', 31, 1], [14, 'b', 43, 0.5], [14.5, 'b', 41, 0.5], [15, 'b', 40, 0.5], [15.5, 'b', 38, 0.5]] },
   // Ode to Joy: | C C | G G | C C | C G | C C | G G | C C | G C |, a chord every two beats
-  ode: { bpm: [84, 100, 116], chords: [C, C, G, G, C, C, C, G, C, C, G, G, C, C, G, C], per: 2 },
+  ode: { bar: 4, bpm: [84, 100, 116], chords: [C, C, G, G, C, C, C, G, C, C, G, G, C, C, G, C], per: 2 },
   // Twinkle: six two-bar phrases, a chord every two beats: C C F C | F C G C | C F C G | C F C G | C C F C | F C G C
-  twinkle: { bpm: [84, 100, 116], chords: [C, C, F, C, F, C, G, C, C, F, C, G, C, F, C, G, C, C, F, C, F, C, G, C], per: 2 }
+  twinkle: { bar: 4, bpm: [84, 100, 116], chords: [C, C, F, C, F, C, G, C, C, F, C, G, C, F, C, G, C, C, F, C, F, C, G, C], per: 2 }
 };
 function accompaniment(name, clef) {
   const a = ACCOMP[name]; if (!a) return null;
@@ -50,14 +50,19 @@ function accompaniment(name, clef) {
 }
 
 // Accompanist: owns the clock for one round of a piece, tells the game where each note is, and schedules the chip 60 ms ahead, never past the awaited note.
+// One bar of introduction (Dafa, 11 Nov 2026): the accompaniment plays the piece's first bar with a quiet count-in tick on every beat while the first notes fly in from the far side,
+// so the player hears the tempo and catches the first note in rhythm. The downbeat of every note sounds on time; the music waits only when a note is still not caught a quarter of a beat later.
+const GRACE = 0.25;
 class Accompanist {
   constructor(name, clef, level, sound) {
     this.sound = sound; this.melody = []; let b = 0;
     PIECES[name][clef].forEach((m, i) => { this.melody.push({ beat: b, midi: m, len: PIECES[name].dur[i] }); b += PIECES[name].dur[i]; });
-    this.end = b; this.events = (accompaniment(name, clef) || []).sort((x, y) => x.beat - y.beat); this.next = 0; this.head = 0;
-    this.clock = new MusicClock((ACCOMP[name] || { bpm: [84, 100, 116] }).bpm[level] || 100);
-    this.clock.holdAt(this.melody[0].beat + 1); // one beat of lead-in before the first note
-    this.clock.beat = 0; this.lead = 1; this.done = false; this.lastBass = 48; this.vampAt = 0;
+    const a = ACCOMP[name] || { bpm: [84, 100, 116] }, bar = a.bar || 4, body = accompaniment(name, clef) || [];
+    const intro = body.filter(e => e.beat < bar).map(e => ({ ...e, beat: e.beat - bar })), ticks = Array.from({ length: bar }, (_, i) => ({ beat: i - bar, v: 'n', accent: i === 0 }));
+    this.end = b; this.events = [...intro, ...ticks, ...body].sort((x, y) => x.beat - y.beat); this.next = 0; this.head = 0;
+    this.clock = new MusicClock(a.bpm[level] || 100);
+    this.lead = bar; this.clock.beat = 0; this.clock.holdAt(this.noteBeat(0) + GRACE);
+    this.done = false; this.lastBass = 48; this.vampAt = 0;
   }
   noteBeat(i) { return this.melody[i].beat + this.lead; }
   // the game calls this every frame with the elapsed seconds and the audio time
@@ -78,6 +83,7 @@ class Accompanist {
   }
   play(e, at, len) {
     if (!this.sound) return;
+    if (e.v === 'n') { this.sound.note(3, 0, at, 0.03, { noise: 1, vol: e.accent ? 5 : 3, decay: 1 }); return; }
     if (e.v === 'b') { this.lastBass = e.midi; this.sound.note(2, e.midi, at, len * 0.95); }
     else this.sound.note(1, e.midi, at, len * 0.9, { duty: 0, vol: 4, decay: 2 });
   }
@@ -87,12 +93,12 @@ class Accompanist {
     this.vampAt = now; const m = this.lastBass, k = Math.round(now * this.clock.base * 2) % 3;
     this.sound.note(1, m + [12, 19, 24][k], now, 0.18, { duty: 0, vol: 3, decay: 2 });
   }
-  // the awaited note was caught (by index): the clock steps onto its beat and waits for the next one
+  // the awaited note was caught (by index): the clock moves on and will wait, if it must, a quarter beat after the next note's downbeat
   caught() {
     this.head++;
-    const next = this.head < this.melody.length ? this.noteBeat(this.head) : this.end + this.lead + 1;
+    const next = this.head < this.melody.length ? this.noteBeat(this.head) + GRACE : this.end + this.lead + 1;
     this.clock.release(next);
   }
-  start() { this.clock.holdAt(this.noteBeat(0)); }
+  start() { this.clock.holdAt(this.noteBeat(0) + GRACE); }
 }
 if (typeof module !== 'undefined') module.exports = { MusicClock, Accompanist, accompaniment, ACCOMP };
