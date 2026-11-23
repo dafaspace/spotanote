@@ -226,11 +226,11 @@ function draw(time,dt){clock=time;ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,
 // and past 440 the stage keeps the rest as a margin in the theme's colour. Below 256 the page scrolls. One canvas unit is a whole number of device pixels, so the pixels stay sharp.
 // Flight time and the speed bonus do not change: the speed already follows the field's width, so a note crosses any field in the same seconds.
 // 1: points, streak and time in the sky of the field. 2: the same in a thin strip above it. 3: as 1, and on a phone held sideways the header goes while a round runs.
-const LAYOUT=(()=>{try{const v=new URLSearchParams(location.search).get('layout');return /^[123]$/.test(v)?v:''}catch{return ''}})();
+/* Variant 3 is the layout (Dafa, 23 Nov 2026); ?layout=1 or 2 still shows the other two for comparison */const LAYOUT=(()=>{try{const v=new URLSearchParams(location.search).get('layout');return /^[12]$/.test(v)?v:'3'}catch{return '3'}})();
 let fieldDy=0,wasPlaying=false;
-function fitField(){const stage=$('.stage'),inst=$('.instrument');if(!stage||!inst||!stage.getBoundingClientRect)return;const previous=canvas.width,dpr=window.devicePixelRatio||1,cw=stage.clientWidth,dev=cw*dpr;
+function fitField(){const stage=$('.stage'),inst=$('.instrument');if(!stage||!inst||!stage.getBoundingClientRect)return;const previous=canvas.width,dpr=window.devicePixelRatio||1,cw=stage.clientWidth,dev=cw*dpr;if(!(cw>0))return;
  /* k device pixels per unit: at least 0.85 CSS px per unit, so the staff is never smaller than on today's phone page, and at most 1100 units wide (a wider stage keeps the rest as side margins); a narrow field may go down to 360 units */let k=Math.max(1,Math.ceil(dpr*.85));if(k>1&&dev/k<360)k--;let W=Math.min(1100,Math.floor(dev/k)),c=k/dpr;if(W<360){W=360;c=cw/360}
- const st=stage.getBoundingClientRect(),others=inst.getBoundingClientRect().bottom+scrollY-st.height+(parseFloat(getComputedStyle(document.body).paddingBottom)||0),avail=innerHeight-others;
+ const st=stage.getBoundingClientRect(),others=inst.getBoundingClientRect().bottom+(window.scrollY||0)-st.height+(window.getComputedStyle?parseFloat(getComputedStyle(document.body).paddingBottom)||0:0),avail=(window.innerHeight||720)-others;
  const H=Math.max(256,Math.min(440,Math.floor(avail/c/4)*4));if(canvas.width!==W)canvas.width=W;if(canvas.height!==H)canvas.height=H;fieldDy=Math.round((H-360)/8)*4;
  canvas.style.width=W*c+'px';canvas.style.height=H*c+'px';stage.style.height=Math.max(H*c,Math.floor(avail))+'px';
  if(previous!==W)notes.forEach(n=>n.x=135+(n.x-135)*(W-135)/(previous-135))}
