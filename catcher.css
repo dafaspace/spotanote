@@ -243,3 +243,4 @@ body[data-layout="2"] .hud .well-cell small{margin:0}
 .sheet-cap{font:12px var(--display);margin:14px 0 8px;color:var(--text)}.sheet .mode-panel{margin-bottom:6px}.sheet .mode-panel .field-label{color:var(--text)}.sheet .mode-panel .px:disabled{opacity:.55;cursor:default}
 #stats .sheet-card{width:min(720px,calc(100% - 32px));margin:0}#stats .stats-head h2{margin:0}
 @media(max-width:800px){#stats .sheet-card{width:100%}}
+.sheet .mode-panel{grid-template-columns:1fr;justify-items:start}.sheet .mode-panel .stage-select,.sheet .mode-panel .field-label{grid-column:1}.sheet .mode-panel .level-select{flex-wrap:wrap}.sheet .mode-panel .field-label{width:100%}.sheet .mode-panel .field-label select,.sheet .mode-panel .pxsel{width:100%;min-width:0}
