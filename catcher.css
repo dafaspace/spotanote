@@ -239,3 +239,7 @@ body[data-layout="2"] .hud .well-cell small{margin:0}
 @media(orientation:landscape) and (max-height:500px){body[data-layout="3"].playing header{display:none}body[data-layout="3"].playing main{padding-top:4px}}
 /* A short screen (a phone on its side) gives every pixel it can to the field: tight header and keybed, and the start window keeps only its title, Start and the mode */
 @media(max-height:500px){body[data-layout] header{padding:0 12px}body[data-layout] main{padding-top:0}body[data-layout] .instrument{padding:4px 3px 6px}body[data-layout] #overlayText,body[data-layout] #overlayHint{display:none}}
+/* One Options menu (23 Nov 2026): what to play opens it, Statistics is a window over the game like it */
+.sheet-cap{font:12px var(--display);margin:14px 0 8px;color:var(--text)}.sheet .mode-panel{margin-bottom:6px}.sheet .mode-panel .field-label{color:var(--text)}.sheet .mode-panel .px:disabled{opacity:.55;cursor:default}
+#stats .sheet-card{width:min(720px,calc(100% - 32px));margin:0}#stats .stats-head h2{margin:0}
+@media(max-width:800px){#stats .sheet-card{width:100%}}
