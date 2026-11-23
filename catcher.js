@@ -76,7 +76,7 @@ function save(){try{localStorage.setItem('spotanote-v1',JSON.stringify(stats))}c
 function record(p,kind){const id=String(p.midi);const entry=stats[id]||(stats[id]={caught:0,wrong:0,missed:0});entry[kind]=(Number(entry[kind])||0)+1;save()}
 // The context and the chip are made at page load, so the worklet is ready before the first tap; a gesture only resumes the context (root CLAUDE.md, "Taps").
 function makeAudio(){if(!audio){const Audio=window.AudioContext||window.webkitAudioContext;if(Audio)try{audio=new Audio()}catch{}}if(audio&&typeof Sound!=='undefined')Sound.start(audio)}
-function initAudio(){makeAudio();if(audio?.state==='suspended')audio.resume().catch(()=>{})}
+/* Any state but running is woken by the gesture: iOS Safari leaves a context made at page load 'interrupted', not 'suspended', and the game stayed silent (Dafa's iPhone, 24 Nov 2026) */function initAudio(){makeAudio();if(audio&&audio.state!=='running'&&audio.state!=='closed')audio.resume().catch(()=>{})}
 // The chip is loading: nothing plays, and the tapped key blinks until it is ready. Browsers with no AudioWorklet at all keep the simple oscillator.
 function chipLoading(){return typeof Sound!=='undefined'&&!Sound.ready&&!!(audio&&audio.audioWorklet)&&Sound.ctx===audio}
 function waitMark(p){const k=p&&document.querySelector&&document.querySelector(`.key[data-midi="${p.midi}"]`);if(!k)return;k.classList.add('wait');const off=()=>{if(Sound.ready||!chipLoading()){k.classList.remove('wait')}else setTimeout(off,50)};setTimeout(off,50)}
