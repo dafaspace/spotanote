@@ -1,4 +1,4 @@
-@import url('fonts/fonts.css');
+@import url('fonts/fonts.css?v=624dc63239');
 :root{
   /* Spotanote's palette: the single source for every colour in the HTML interface (the canvas art keeps its own in catcher.js). Contrast on --bg measured by _Tastebook, 3 Nov 2026: text 14.5:1, muted 6.2:1, lime 14.1:1, orange 9.7:1. */
   --bg:#101c1b;--panel:#182725;--panel-2:#1c2b26;--well:#15221f;--raised:#2a3b30;--track:#2c4031;

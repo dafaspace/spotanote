@@ -7,7 +7,7 @@ const Sound = {
   start(ctx) {
     if (this.ctx || !ctx || !ctx.audioWorklet) return;
     this.ctx = ctx;
-    ctx.audioWorklet.addModule('chip-worklet.js').then(() => {
+    ctx.audioWorklet.addModule('chip-worklet.js?v=6e7c5055d7').then(() => {
       this.node = new AudioWorkletNode(ctx, 'chip', { numberOfInputs: 0, outputChannelCount: [1] });
       this.build(); this.ready = true;
     }).catch(() => { this.ready = false; });

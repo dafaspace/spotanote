@@ -1,5 +1,5 @@
 // AudioWorklet host for the chip: the main thread posts note events with AudioContext times, the chip renders them sample-exact.
-import { Chip } from './chip-core.js';
+import { Chip } from './chip-core.js?v=e2a4c38c3e';
 class ChipProcessor extends AudioWorkletProcessor {
   constructor() {
     super();
