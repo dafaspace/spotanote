@@ -213,3 +213,29 @@ header nav{gap:12px}header nav .px{font-size:12px}#sound{border:0;color:var(--te
 .pxsel-list li.on{background:var(--text);color:var(--bg)}.pxsel-list li.on[aria-selected="true"]::before{background:var(--bg)}
 .field-label .pxsel,.field-label .pxsel-btn{width:100%}
 @media(max-width:800px){.pxsel-list li{min-height:44px}}
+/* One screen, ?layout=1/2/3 (12 Nov 2026, see fitField in catcher.js): header, field and piano fill the screen and nothing more; the rest of the page lies below. */
+.sheet-links{flex-wrap:wrap}
+body[data-layout] header{padding:6px 12px;row-gap:4px}body[data-layout] #statsBtn,body[data-layout] header nav a.px{display:none}
+body[data-layout] main{padding-top:8px}
+body[data-layout] .stage{display:flex;align-items:flex-end;justify-content:center;background:var(--panel)}
+body[data-layout] canvas{flex:none;max-width:none}
+body[data-layout] .field-footer,body[data-layout] .instrument-top{display:none}
+body[data-layout] .instrument{padding:10px 3px 12px}
+body[data-layout] #piano{height:clamp(88px,22svh,145px)}
+body[data-layout] #overlay,body[data-layout] #overlay:not([hidden]){position:absolute;inset:0;padding:8px;background:var(--veil-light,rgba(0,0,0,.35))}
+body[data-layout] .dlg{max-height:100%;overflow:auto;gap:8px;padding:12px 16px}
+body[data-layout] #overlay:not([hidden])~.scene-message{display:none}
+/* 1 and 3: the numbers stand in the sky of the field */
+body[data-layout="1"] .arcade,body[data-layout="3"] .arcade{position:relative}
+body[data-layout="1"] .hud,body[data-layout="3"] .hud{position:absolute;top:0;left:0;right:0;z-index:3;background:none;border:0;padding:6px;gap:6px;pointer-events:none}
+body[data-layout="1"] .hud .well-cell,body[data-layout="3"] .hud .well-cell{padding:4px 6px;min-width:0}
+body[data-layout="1"] .hud small,body[data-layout="3"] .hud small{margin-bottom:2px}
+body[data-layout] .hud #pause{pointer-events:auto;margin-inline-start:auto;min-width:44px;min-height:44px}
+/* 2: a thin strip, one line per number */
+body[data-layout="2"] .hud{padding:4px 8px;gap:8px}
+body[data-layout="2"] .hud .well-cell{display:flex;align-items:baseline;gap:6px;padding:4px 8px;min-width:0}
+body[data-layout="2"] .hud .well-cell small{margin:0}
+/* 3: a phone on its side drops the header while a round runs; pause stays in the corner of the field */
+@media(orientation:landscape) and (max-height:500px){body[data-layout="3"].playing header{display:none}body[data-layout="3"].playing main{padding-top:4px}}
+/* A short screen (a phone on its side) gives every pixel it can to the field: tight header and keybed, and the start window keeps only its title, Start and the mode */
+@media(max-height:500px){body[data-layout] header{padding:0 12px}body[data-layout] main{padding-top:0}body[data-layout] .instrument{padding:4px 3px 6px}body[data-layout] #overlayText,body[data-layout] #overlayHint{display:none}}
