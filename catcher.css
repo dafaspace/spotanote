@@ -244,3 +244,7 @@ body[data-layout="2"] .hud .well-cell small{margin:0}
 #stats .sheet-card{width:min(720px,calc(100% - 32px));margin:0}#stats .stats-head h2{margin:0}
 @media(max-width:800px){#stats .sheet-card{width:100%}}
 .sheet .mode-panel{grid-template-columns:1fr;justify-items:start}.sheet .mode-panel .stage-select,.sheet .mode-panel .field-label{grid-column:1}.sheet .mode-panel .level-select{flex-wrap:wrap}.sheet .mode-panel .field-label{width:100%}.sheet .mode-panel .field-label select,.sheet .mode-panel .pxsel{width:100%;min-width:0}
+/* A wrong press shows the right key: an orange frame and its name, even with names off (24 Nov 2026). */
+.key.answer{box-shadow:inset 0 0 0 4px var(--orange),0 5px 0 var(--key-white-edge)}.key.black.answer{box-shadow:inset 0 0 0 3px var(--orange),0 4px 0 var(--key-black-edge)}.names-off .key.answer .note-name{display:revert}
+/* Passing the personal best mid-round: the score turns orange and blinks three times on whole frames. */
+.hud #score.best{color:var(--orange);animation:bestblink .3s steps(1,end) 3}@keyframes bestblink{50%{visibility:hidden}}@media(prefers-reduced-motion:reduce){.hud #score.best{animation:none}}
