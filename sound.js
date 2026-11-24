@@ -4,6 +4,8 @@
 // Clean: the chip straight, for people who want the console as it was. Browsers without AudioWorklet keep the old simple oscillator (Chip.ready stays false).
 const Sound = {
   ctx: null, node: null, ready: false, warm: true,
+  // A new context after iOS left the old one dead (catcher.js rebuildAudio): the chip is loaded again into it.
+  reset() { try { this.node && this.node.disconnect(); } catch {} this.ctx = null; this.node = null; this.ready = false; },
   start(ctx) {
     if (this.ctx || !ctx || !ctx.audioWorklet) return;
     this.ctx = ctx;
