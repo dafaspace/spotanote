@@ -3,14 +3,17 @@
 // Warm: a low shelf brings back the body the console's 440 Hz filter takes away, a "TV speaker" low-pass softens the top, a gentle tape-like saturation and a short room glue it.
 // Clean: the chip straight, for people who want the console as it was. Browsers without AudioWorklet keep the old simple oscillator (Chip.ready stays false).
 const Sound = {
-  ctx: null, node: null, ready: false, warm: true,
+  ctx: null, node: null, drumNode: null, ready: false, warm: true, drumVol: 1,
   // A new context after iOS left the old one dead (catcher.js rebuildAudio): the chip is loaded again into it.
-  reset() { try { this.node && this.node.disconnect(); } catch {} this.ctx = null; this.node = null; this.ready = false; },
+  reset() { try { this.node && this.node.disconnect(); this.drumNode && this.drumNode.disconnect(); } catch {} this.ctx = null; this.node = null; this.drumNode = null; this.ready = false; },
   start(ctx) {
     if (this.ctx || !ctx || !ctx.audioWorklet) return;
     this.ctx = ctx;
     ctx.audioWorklet.addModule('chip-worklet.js?v=6e7c5055d7').then(() => {
       this.node = new AudioWorkletNode(ctx, 'chip', { numberOfInputs: 0, outputChannelCount: [1] });
+      // the drums play on a second chip of their own (Dafa, 25 Nov 2026: a drum volume in Options): the triangle has no volume on the chip,
+      // so only a separate output can be turned down; it also keeps drum hits from cutting the notes' triangle and noise
+      this.drumNode = new AudioWorkletNode(ctx, 'chip', { numberOfInputs: 0, outputChannelCount: [1] });
       this.build(); this.ready = true;
     }).catch(() => { this.ready = false; });
   },
@@ -26,8 +29,13 @@ const Sound = {
     for (let ch = 0; ch < 2; ch++) { const d = ir.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (c.sampleRate * 0.07)); }
     this.room.buffer = ir; this.wet = c.createGain(); this.wet.gain.value = 0.16;
     this.low.connect(this.tv); this.tv.connect(this.sat); this.sat.connect(this.master); this.sat.connect(this.room); this.room.connect(this.wet); this.wet.connect(this.master);
+    this.drumGain = c.createGain(); this.drumGain.gain.value = this.drumVol;
+    this.drumNode.connect(this.drumGain); this.drumGain.connect(this.pre);
     this.setWarm(this.warm);
   },
+  // 0..1.., linear gain on the drum chip
+  setDrumVol(g) { this.drumVol = g; if (this.drumGain) this.drumGain.gain.setTargetAtTime(g, this.ctx.currentTime, .02); },
+  drums(events) { if (this.ready && events.length) this.drumNode.port.postMessage({ events }); },
   setWarm(on) {
     this.warm = on;
     if (!this.node) return;
@@ -36,7 +44,7 @@ const Sound = {
     this.pre.connect(on ? this.low : this.master);
   },
   send(events) { if (this.ready) this.node.port.postMessage({ events }); },
-  clear() { if (this.ready) this.node.port.postMessage({ clear: true }); },
+  clear() { if (this.ready) { this.node.port.postMessage({ clear: true }); this.drumNode.port.postMessage({ clear: true }); } },
   now() { return this.ctx ? this.ctx.currentTime : 0; },
   // One note on a voice: ch 0-1 pulse, 2 triangle, 3 noise. dur in seconds; the voice is released at the end.
   note(ch, midi, at, dur, o = {}) { this.send([{ at, ch, cmd: 'on', midi, vol: o.vol ?? 12, duty: o.duty ?? 1, decay: o.decay ?? 0, slide: o.slide ?? 0, noise: o.noise, short: o.short }, { at: at + dur, ch, cmd: 'off' }]); }
