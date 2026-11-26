@@ -256,3 +256,12 @@ body[data-layout="2"] .hud .well-cell small{margin:0}
 .vol::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:26px;margin-top:-7px;border:0;border-radius:0;background:var(--lime);box-shadow:0 0 0 2px var(--outline),2px 2px 0 var(--lime-shadow)}
 .vol::-moz-range-thumb{width:16px;height:26px;border:0;border-radius:0;background:var(--lime);box-shadow:0 0 0 2px var(--outline),2px 2px 0 var(--lime-shadow)}
 .vol:focus-visible{outline:2px solid var(--orange);outline-offset:4px}
+
+/* First-visit tips (tour.js): a lime ring around the real control, the page dimmed around it, a well-style card beside it. */
+.tour{position:fixed;inset:0;z-index:50}
+.tour-ring{position:fixed;box-shadow:0 0 0 3px var(--lime),0 0 0 9999px rgba(0,0,0,.6);pointer-events:none}
+.tour .tour-card{position:fixed;max-width:none;max-height:none;padding:18px 18px 14px;text-align:start}
+.tour-text{margin:0 0 14px;line-height:1.5;font-size:13px}
+.tour-foot{display:flex;align-items:center;gap:8px}.tour-step{flex:1;opacity:.7}
+.names-hint{flex-direction:row;position:fixed;left:50%;transform:translateX(-50%);z-index:40;display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:8px;max-width:calc(100% - 32px);max-height:none;padding:12px 16px}
+.names-hint[hidden],.tour[hidden]{display:none}
