@@ -169,7 +169,7 @@ header nav{gap:12px}header nav .px{font-size:12px}#sound{border:0;color:var(--te
 .dlg h2,#overlayTitle{font:16px/1.5 var(--display);margin:0;color:inherit}
 .dlg p,#overlayText{margin:0;line-height:1.7;color:inherit;font-size:12px}
 /* Results use the very cell of the HUD wells, so a stat looks the same in play and after it (Tastebook). */
-.res-cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%}.res-cells[hidden]{display:none}
+.res-cells{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%}.res-cells[hidden]{display:none}
 .res{background:var(--well-deep);color:var(--well-ink);padding:8px 6px;text-align:center;box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
 .res small{display:block;font-size:12px;margin-bottom:4px}.res b{font:16px var(--display);color:var(--well-val)}.res.hi{box-shadow:0 0 0 2px var(--well-val)}
 .res-best{grid-column:1/-1;text-align:center;color:var(--lime);font:12px var(--display);margin:2px 0 0}
@@ -179,7 +179,7 @@ header nav{gap:12px}header nav .px{font-size:12px}#sound{border:0;color:var(--te
 /* NES and 1-bit: the black text box with a white line one unit in from the edge (the Dragon Quest style window); cells get a white outline to stand off the black. */
 [data-theme="nes"] .dlg,[data-theme="onebit"] .dlg{background:var(--well-deep);color:var(--well-ink);box-shadow:0 0 0 2px var(--well-deep),inset 0 0 0 4px var(--well-deep),inset 0 0 0 6px var(--well-ink),8px 8px 0 2px var(--outline)}
 [data-theme="nes"] .res,[data-theme="onebit"] .res{box-shadow:0 0 0 2px var(--well-ink)}
-@media(max-width:800px){.res-cells{grid-template-columns:repeat(2,minmax(0,1fr))}.dlg{padding:16px}}
+@media(max-width:800px){.res-cells{gap:6px}.dlg{padding:16px}}
 /* The piano sits on a dark keybed, like a real instrument's case, so the white keys never blend into a light panel. */
 .instrument{background:var(--well-deep);box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
 .instrument .legend .keyboard-tip{box-shadow:0 0 0 2px var(--well-ink)}
@@ -265,3 +265,26 @@ body[data-layout="2"] .hud .well-cell small{margin:0}
 .tour-foot{display:flex;align-items:center;gap:8px}.tour-step{flex:1;opacity:.7}
 .names-hint{flex-direction:row;position:fixed;left:50%;transform:translateX(-50%);z-index:40;display:flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:8px;max-width:calc(100% - 32px);max-height:none;padding:12px 16px}
 .names-hint[hidden],.tour[hidden]{display:none}
+
+/* Rewards v1 (28 Nov 2026): the round's marks under the number cells, the grid of cells in Options, the hero cards of the first visit. Glyph colours are fixed pixel art, like the heroes' sprites. */
+.rw-mark{position:relative;display:inline-block;flex:none}.rw-mark .rw-g{display:block;width:100%;height:100%}.rw-zap{position:absolute;inset-inline-end:-30%;bottom:-12%;filter:drop-shadow(1px 1px 0 var(--outline))}
+.rw-g,.rw-zap{image-rendering:pixelated}
+.rw-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:2px}
+.rw-item{display:flex;align-items:center;gap:10px;text-align:start;background:var(--well-deep);color:var(--well-ink);padding:8px 10px;box-shadow:inset 2px 2px 0 var(--well-shadow),inset -2px -2px 0 var(--well-light)}
+.rw-item>svg{flex:none}.rw-item b{display:block;font:12px var(--display);color:var(--well-val);line-height:1.4}.rw-item small{display:block;font-size:12px;line-height:1.5;color:var(--well-ink)}
+.rw-item.new{box-shadow:0 0 0 2px var(--orange)}
+@media(max-width:560px){.rw-row{grid-template-columns:1fr}}
+.cell-grid{margin-bottom:6px}.rw-grid{display:grid;grid-template-columns:auto repeat(4,minmax(44px,1fr));gap:4px;align-items:center}
+.rw-col{text-align:center;font:12px var(--display);color:var(--muted)}.rw-lvl{font-size:12px;color:var(--muted);padding-inline-end:6px;white-space:nowrap}
+.rw-cell{min-height:56px;display:flex;align-items:center;justify-content:center;background:var(--well);border:0;padding:0;padding-inline-end:10px;box-shadow:inset 0 0 0 2px var(--line)}
+.rw-cell.empty .rw-mark{opacity:.8}.rw-cell.here{box-shadow:inset 0 0 0 2px var(--lime)}
+.rw-cell.gold{background:#3a2c12;box-shadow:inset 0 0 0 2px #f7b36b,inset 0 0 0 4px #3a2c12,inset 0 0 0 6px #9a5a1a}.rw-cell.gold.here{box-shadow:inset 0 0 0 2px var(--lime),inset 0 0 0 4px #3a2c12,inset 0 0 0 6px #f7b36b}
+.rw-legend{font-size:12px;line-height:1.6;color:var(--muted);margin:8px 0 0}
+#resetMarks{min-height:44px;font-size:12px;color:var(--muted);background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px;box-shadow:none}
+.heroes-intro{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:var(--veil);padding:16px;overflow:auto}
+.heroes-card{max-width:520px;width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}.heroes-card h2{font:16px var(--display);margin:0}
+.heroes{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.polaroid{margin:0;background:#e8edcf;color:#203019;width:220px;padding:12px 12px 16px;box-shadow:6px 6px 0 2px var(--outline);display:flex;flex-direction:column;align-items:center;gap:6px}
+.polaroid canvas{width:112px;height:112px;image-rendering:pixelated;background:#182725}.polaroid figcaption{display:flex;flex-direction:column;align-items:center;gap:4px}
+.polaroid b{font:16px var(--display);letter-spacing:.1em;margin-top:4px}.polaroid .role{font-size:12px;color:#527c43}.polaroid.bo .role{color:#503080}.polaroid p{margin:4px 0 0;font-size:12px;line-height:1.5;color:#38412f}
+@media(max-width:520px){.heroes{flex-wrap:nowrap}.polaroid{width:auto;flex:1;padding:8px 8px 12px}.polaroid canvas{width:80px;height:80px}}

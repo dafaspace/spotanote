@@ -91,12 +91,12 @@ const Tour = (() => {
   function auto() {
     let seen = true;
     try { seen = store.get('spotanote-tour') === '1' || localStorage.getItem('spotanote-v1') !== null; } catch { seen = true; }
-    if (!seen) setTimeout(start, 500);
+    if (!seen) setTimeout(() => typeof Rewards !== 'undefined' ? Rewards.heroes(start) : start(), 500);
   }
   return { start, press, auto, reset: () => { wrongRun = 0; } };
 })();
 if (typeof document !== 'undefined') {
   const again = document.querySelector('#tourAgain');
-  if (again) again.onclick = () => { if (typeof closeOptions === 'function') closeOptions(); setTimeout(Tour.start, 50); };
+  if (again) again.onclick = () => { if (typeof closeOptions === 'function') closeOptions(); setTimeout(() => typeof Rewards !== 'undefined' ? Rewards.heroes(Tour.start) : Tour.start(), 50); };
   if (document.readyState === 'complete') Tour.auto(); else window.addEventListener('load', Tour.auto);
 }
